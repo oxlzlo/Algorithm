@@ -1,41 +1,23 @@
-const input = require('fs').readFileSync('/dev/stdin')
-  .toString().trim().split('\n').map((v) => v.split(" ").map((v) => +v));
+const readline = require('readline');
 
-    const [[N, K], arr] = input;
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+});
 
-    console.log(quickSort(arr, 0, arr.length-1)[K-1]);
+const input = [];
 
-    function quickSort(arr, left, right) {
-        if (left >= right) {
-            return;
-        }
-        const mid = Math.floor((left+right)/2);
-        const pivot = arr[mid];
-        const partition = divide(arr, left, right, pivot);
+rl.on('line', function(line) {
+    input.push(line);
+}).on('close', function(){
 
-        quickSort(arr, left, partition-1);
-        quickSort(arr, partition, right);
+    const K = input[0].split(' ')[1];
 
-        return arr;
-    }
+    const arr = input[1].split(' ').map(Number).sort((a, b) => a - b);
 
-    function divide(arr, left, right, pivot) {
-        while (left <= right) {
-            while (arr[left] < pivot) {
-                left ++
-            }
-            while (arr[right] > pivot) {
-                right --
-            }
+    console.log(arr[K-1])
 
-            if (left <= right) {
-                let tmp = arr[left];
-                arr[left] = arr[right];
-                arr[right] = tmp;
-                left ++;
-                right --;
-            }
-        }
-        return left;
-    }
-   
+    rl.close();
+
+    process.exit();
+});
